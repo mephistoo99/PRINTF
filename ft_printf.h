@@ -3,7 +3,6 @@
 
 # include <unistd.h>
 # include <stdarg.h>
-# include <sys/types.h>
 
 int		ft_printf(const char *str, ...);
 size_t	ft_putnbr_base(ssize_t nbr, char *base, size_t len, char spf);

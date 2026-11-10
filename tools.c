@@ -6,7 +6,7 @@
 /*   By: mchaarou <mchaarou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 13:27:06 by mchaarou          #+#    #+#             */
-/*   Updated: 2026/11/08 13:28:04 by mchaarou         ###   ########.fr       */
+/*   Updated: 2026/11/10 16:23:29 by mchaarou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (s[i] == (char)c)
 		return ((char *)(s + i));
-	return (0);
+	return (NULL);
 }
