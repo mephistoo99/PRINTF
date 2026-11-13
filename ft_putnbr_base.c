@@ -34,7 +34,6 @@ size_t	print_base(ssize_t num, char *base, size_t base_len)
 		count += ft_putchar(str[i]);
 	return (count);
 }
-
 size_t	ft_putnbr_base(ssize_t nbr, char *base, size_t base_len, char spf)
 {
 	size_t	count;

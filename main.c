@@ -3,9 +3,30 @@
 
 int main()
 {
-	int a = 11;
+	char *a = "hello";
 	int b = 11;
-	int c = ft_printf("or_printf : %p %p\n",&a,&b);
-	int d = printf("ft_printf : %p %p\n",&a,&b);
-	printf("originel : %d\nft : %d\n",c ,d);
+	
+	int x = 16;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	ft_printf("or_printf : %s %p\n",a,&a);
+	printf("ft_printf : %s %p\n",a,&a);
+
+	ft_printf("or_printf : %x %X\n",x,x);
+	printf("ft_printf : %x %X\n",x,x);
+
+
 }
