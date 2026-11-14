@@ -12,56 +12,56 @@
 
 #include "ft_printf.h"
 
-size_t	print_spf(const char c, va_list ap)
+int print_spf(const char c, va_list ap)
 {
-	size_t	count;
-	char	*lower_hex;
-	char	*upper_hex;
+    int check;
 
-	count = 0;
-	lower_hex = "0123456789abcdef";
-	upper_hex = "0123456789ABCDEF";
-	if (c == 'c')
-		count += ft_putchar(va_arg(ap, int));
-	else if (c == '%')
-		count += ft_putchar('%');
-	else if (c == 's')
-		count += ft_putstr(va_arg(ap, char *));
-	else if (c == 'd' || c == 'i')
-		count += ft_putnbr_base(va_arg(ap, int), "0123456789", 10, c);
-	else if (c == 'u')
-		count += ft_putnbr_base(va_arg(ap, unsigned), "0123456789", 10, c);
-	else if (c == 'x')
-		count += ft_putnbr_base(va_arg(ap, unsigned), lower_hex, 16, c);
-	else if (c == 'X')
-		count += ft_putnbr_base(va_arg(ap, unsigned), upper_hex, 16, c);
-	else if (c == 'p')
-		count += ft_putnbr_base(va_arg(ap, long), lower_hex, 16, c);
-	return (count);
+    check = 0;
+    if (c == 'c')
+        check = ft_putchar(va_arg(ap, int));
+    else if (c == '%')
+        check = ft_putchar('%');
+    else if (c == 's')
+        check = ft_putstr(va_arg(ap, char *));
+    else if (c == 'd' || c == 'i')
+        check = ft_putnbr_base(va_arg(ap, int), "0123456789", 10, c);
+    else if (c == 'u')
+        check = ft_putnbr_base(va_arg(ap, unsigned int), "0123456789", 10, c);
+    else if (c == 'x')
+        check = ft_putnbr_base(va_arg(ap, unsigned int), "0123456789abcdef", 16, c);
+    else if (c == 'X')
+        check = ft_putnbr_base(va_arg(ap, unsigned int), "0123456789ABCDEF", 16, c);
+    else if (c == 'p')
+        check = ft_putnbr_base((long)va_arg(ap, unsigned long), "0123456789abcdef", 16, c);
+    return (check);
 }
 
-int	ft_printf(const char *str, ...)
+int ft_printf(const char *str, ...)
 {
-	char	*spf;
-	va_list	ap;
-	size_t	count;
-	size_t	i;
+    va_list ap;
+    int     count;
+    int     guard;
+    size_t  i;
 
-	i = 0;
-	count = 0;
-	va_start(ap, str);
-	spf = "cspdiuxX%";
-	while (str[i])
-	{
-		if (str[i] == '%' && ft_strchr(spf, str[i + 1]))
-		{
-			count += print_spf(str[i + 1], ap);
-			++i;
-		}
-		else
-			count += ft_putchar(str[i]);
-		++i;
-	}
-	va_end(ap);
-	return (count);
+    if (!str)
+        return (-1);
+    i = 0;
+    count = 0;
+    va_start(ap, str);
+    while (str[i])
+    {
+        if (str[i] == '%' && str[i + 1] && ft_strchr("cspdiuxX%", str[i + 1]))
+            guard = print_spf(str[++i], ap);
+        else
+            guard = ft_putchar(str[i]);
+        if (guard == -1)
+        {
+            va_end(ap);
+            return (-1);
+        }
+        count += guard;
+        ++i;
+    }
+    va_end(ap);
+    return (count);
 }

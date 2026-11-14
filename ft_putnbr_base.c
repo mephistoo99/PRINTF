@@ -12,45 +12,61 @@
 
 #include "ft_printf.h"
 
-size_t	print_base(ssize_t num, char *base, size_t base_len)
+int print_base(unsigned long num, char *base, unsigned long base_len)
 {
-	char	str[20];
-	size_t	count;
-	size_t	rem;
-	size_t	i;
+    char str[21];
+    int  count;
+    int  i;
 
-	i = 0;
-	count = 0;
-	if (num == 0)
-		count += ft_putchar(base[0]);
-	while (num != 0)
-	{
-		rem = num % base_len;
-		str[i] = base[rem];
-		num /= base_len;
-		++i;
-	}
-	while (i--)
-		count += ft_putchar(str[i]);
-	return (count);
+    if (num == 0)
+        return (ft_putchar(base[0]));
+    i = 0;
+    while (num != 0)
+    {
+        str[i++] = base[num % base_len];
+        num /= base_len;
+    }
+    count = 0;
+    while (i--)
+    {
+        if (ft_putchar(str[i]) == -1)
+            return (-1);
+        count++;
+    }
+    return (count);
 }
-size_t	ft_putnbr_base(ssize_t nbr, char *base, size_t base_len, char spf)
-{
-	size_t	count;
 
-	count = 0;
-	if ((spf == 'd' || spf == 'i' || spf == 'u') && nbr < 0)
-	{
-		count += ft_putchar('-');
-		nbr = -nbr;
-	}
-	else if (spf == 'p' && nbr == 0)
-	{
-		count += ft_putstr("0x0");
-		return (count);
-	}
-	else if (spf == 'p')
-		count += ft_putstr("0x");
-	count += print_base(nbr, base, base_len);
-	return (count);
+int print_ptr_prefix(long nbr)
+{
+    if (nbr == 0)
+        return (ft_putstr("0x0"));
+    return (ft_putstr("0x"));
+}
+
+int ft_putnbr_base(long nbr, char *base, int base_len, char spf)
+{
+    int           count;
+    int           guard;
+    unsigned long u_nbr;
+
+    count = 0;
+    if (spf == 'p')
+    {
+        guard = print_ptr_prefix(nbr);
+        if (guard == -1 || nbr == 0)
+            return (guard);
+        count += guard;
+    }
+    u_nbr = (unsigned long)nbr;
+    if ((spf == 'd' || spf == 'i') && nbr < 0)
+    {
+        if (ft_putchar('-') == -1)
+            return (-1);
+        count++;
+        u_nbr = (unsigned long)(-(nbr + 1)) + 1;
+    }
+    guard = print_base(u_nbr, base, (unsigned long)base_len);
+    if (guard == -1)
+        return (-1);
+    return (count + guard);
 }
