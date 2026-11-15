@@ -1,4 +1,4 @@
-NAME =	ftprintf.a
+NAME =	libftprintf.a
 SRC = ft_printf.c ft_putnbr_base.c tools.c
 OBJS = $(SRC:.c=.o)
 

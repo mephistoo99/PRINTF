@@ -39,7 +39,7 @@ int print_base(unsigned long num, char *base, unsigned long base_len)
 int print_ptr_prefix(long nbr)
 {
     if (nbr == 0)
-        return (ft_putstr("0x0"));
+        return (ft_putstr("(nil)"));
     return (ft_putstr("0x"));
 }
 
