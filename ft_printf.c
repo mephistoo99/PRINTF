@@ -53,7 +53,9 @@ int	ft_printf(const char *str, ...)
 	va_start(ap, str);
 	while (str[i])
 	{
-		if (str[i] == '%' && str[i + 1] && ft_strchr("cspdiuxX%", str[i + 1]))
+		if (str[i] == '%' && !str[i + 1])
+			return (va_end(ap), -1);
+		if (str[i] == '%' && ft_strchr("cspdiuxX%", str[i + 1]))
 		{
 			guard = print_spf(str[i + 1], ap);
 			i += 2;
